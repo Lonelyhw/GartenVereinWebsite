@@ -1,0 +1,22 @@
+<ng-container *ngIf='link; else staticCard'>
+  <a
+    class='group rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg'
+    [routerLink]='link'
+  >
+    <div class='h-36 w-full rounded-t-2xl' [ngClass]='imageClass'></div>
+    <div class='space-y-2 px-5 py-4'>
+      <h3 class='text-lg font-semibold text-slate-900'>{{ title }}</h3>
+      <p class='text-sm text-slate-600'>{{ text }}</p>
+    </div>
+  </a>
+</ng-container>
+
+<ng-template #staticCard>
+  <div class='rounded-2xl border border-slate-200 bg-white shadow-sm'>
+    <div class='h-36 w-full rounded-t-2xl' [ngClass]='imageClass'></div>
+    <div class='space-y-2 px-5 py-4'>
+      <h3 class='text-lg font-semibold text-slate-900'>{{ title }}</h3>
+      <p class='text-sm text-slate-600'>{{ text }}</p>
+    </div>
+  </div>
+</ng-template>

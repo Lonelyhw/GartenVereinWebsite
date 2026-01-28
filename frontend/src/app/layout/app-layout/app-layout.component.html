@@ -1,0 +1,157 @@
+<header class='sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur'>
+  <app-container className='flex h-16 items-center justify-between'>
+    <a class='text-base font-semibold tracking-tight text-slate-900 md:text-lg' routerLink='/'>
+      Kleingartenverein am Heidensee e.V.
+    </a>
+
+    <nav class='hidden items-center gap-5 text-sm font-medium text-slate-700 lg:flex'>
+      <div class='group relative'>
+        <button class='inline-flex items-center gap-1.5 py-2 text-slate-700 hover:text-slate-900'>
+          Der Verein
+          <span class='text-xs text-slate-400'>v</span>
+        </button>
+        <div
+          class='invisible absolute left-0 top-full mt-2 w-60 rounded-lg border border-slate-200 bg-white p-2 shadow-lg opacity-0 transition group-hover:visible group-hover:opacity-100'
+        >
+          <a
+            *ngFor='let link of groups[0].links'
+            class='block rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+            [routerLink]='link.path'
+            routerLinkActive='bg-slate-100 text-slate-900'
+          >
+            {{ link.label }}
+          </a>
+        </div>
+      </div>
+
+      <div class='group relative'>
+        <button class='inline-flex items-center gap-1.5 py-2 text-slate-700 hover:text-slate-900'>
+          Aktuelles
+          <span class='text-xs text-slate-400'>v</span>
+        </button>
+        <div
+          class='invisible absolute left-0 top-full mt-2 w-60 rounded-lg border border-slate-200 bg-white p-2 shadow-lg opacity-0 transition group-hover:visible group-hover:opacity-100'
+        >
+          <a
+            *ngFor='let link of groups[1].links'
+            class='block rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+            [routerLink]='link.path'
+            routerLinkActive='bg-slate-100 text-slate-900'
+          >
+            {{ link.label }}
+          </a>
+        </div>
+      </div>
+
+      <a
+        *ngFor='let link of directLinks'
+        class='rounded-full px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+        [routerLink]='link.path'
+        routerLinkActive='bg-slate-100 text-slate-900'
+      >
+        {{ link.label }}
+      </a>
+
+      <div class='relative hidden items-center lg:flex'>
+        <input
+          class='h-9 w-48 rounded-full border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-300 focus:outline-none'
+          type='search'
+          placeholder='Suche'
+        />
+        <span class='absolute left-3 text-xs text-slate-400'>o</span>
+      </div>
+    </nav>
+
+    <button
+      class='inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 text-slate-700 hover:bg-slate-100 lg:hidden'
+      type='button'
+      (click)='toggleMobile()'
+      aria-label='Menue oeffnen'
+    >
+      <span class='text-lg'>=</span>
+    </button>
+  </app-container>
+</header>
+
+<div *ngIf='mobileOpen()' class='lg:hidden'>
+  <div class='fixed inset-0 z-40 bg-slate-900/30' (click)='closeMobile()'></div>
+  <aside class='fixed right-0 top-0 z-50 h-full w-80 bg-white shadow-xl'>
+    <div class='flex items-center justify-between border-b border-slate-200 px-4 py-4'>
+      <span class='text-base font-semibold text-slate-900'>Menue</span>
+      <button
+        class='inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-700 hover:bg-slate-100'
+        type='button'
+        (click)='closeMobile()'
+        aria-label='Menue schliessen'
+      >
+        x
+      </button>
+    </div>
+    <div class='space-y-5 px-4 py-6'>
+      <div class='rounded-xl border border-slate-200 bg-white px-3 py-2'>
+        <div class='relative'>
+          <input
+            class='h-10 w-full rounded-lg border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-700 placeholder:text-slate-400'
+            type='search'
+            placeholder='Suche'
+          />
+          <span class='absolute left-3 top-3 text-xs text-slate-400'>o</span>
+        </div>
+      </div>
+
+      <div *ngFor='let group of groups' class='rounded-xl border border-slate-200 bg-white'>
+        <button
+          class='flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-slate-800'
+          type='button'
+          (click)='toggleGroup(group.label)'
+        >
+          {{ group.label }}
+          <span class='text-xs text-slate-400'>{{ mobileGroupOpen() === group.label ? '^' : 'v' }}</span>
+        </button>
+        <div *ngIf='mobileGroupOpen() === group.label' class='space-y-1 px-4 pb-4'>
+          <a
+            *ngFor='let link of group.links'
+            class='block rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+            [routerLink]='link.path'
+            routerLinkActive='bg-slate-100 text-slate-900'
+            (click)='closeMobile()'
+          >
+            {{ link.label }}
+          </a>
+        </div>
+      </div>
+
+      <div class='space-y-2'>
+        <p class='text-xs font-semibold uppercase tracking-wide text-slate-400'>Direktlinks</p>
+        <a
+          *ngFor='let link of directLinks'
+          class='block rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+          [routerLink]='link.path'
+          routerLinkActive='bg-slate-100 text-slate-900'
+          (click)='closeMobile()'
+        >
+          {{ link.label }}
+        </a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<main class='bg-slate-50'>
+  <app-container className='py-8'>
+    <router-outlet />
+  </app-container>
+</main>
+
+<footer class='border-t border-slate-200 bg-white'>
+  <app-container className='flex flex-col gap-3 py-6 text-sm text-slate-600 md:flex-row md:items-center md:justify-between'>
+    <div>
+      <p class='font-semibold text-slate-800'>Kleingartenverein am Heidensee e.V.</p>
+      <p class='text-xs text-slate-500'>info@kgv-heidensee.de</p>
+    </div>
+    <div class='flex flex-col gap-2 md:flex-row md:gap-6'>
+      <span>Impressum (Platzhalter)</span>
+      <span>Kontakt (Platzhalter)</span>
+    </div>
+  </app-container>
+</footer>
