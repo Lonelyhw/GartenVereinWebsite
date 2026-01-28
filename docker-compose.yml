@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: gartenverein
+      POSTGRES_USER: gartenverein
+      POSTGRES_PASSWORD: gartenverein
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: db
+      DB_NAME: gartenverein
+      DB_USER: gartenverein
+      DB_PASSWORD: gartenverein
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  db_data:
