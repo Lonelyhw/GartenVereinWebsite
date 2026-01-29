@@ -1,0 +1,23 @@
+<div *ngIf='status' class='mb-6 rounded-2xl border px-4 py-3 text-sm shadow-sm' [class]='getClasses(status.type)'>
+  <div class='flex items-start justify-between gap-4'>
+    <p class='leading-relaxed'>{{ status.message }}</p>
+    <button
+      class='shrink-0 rounded-full border border-transparent px-2 py-1 text-xs font-semibold hover:bg-white/60'
+      type='button'
+      aria-label='Schliessen'
+      (click)='dismiss.emit()'
+    >
+      ?
+    </button>
+  </div>
+  <div *ngIf='status.actions?.length' class='mt-3 flex flex-wrap gap-2'>
+    <button
+      *ngFor='let actionItem of status.actions'
+      class='rounded-full border border-current px-3 py-1 text-xs font-semibold'
+      type='button'
+      (click)='action.emit(actionItem.actionId)'
+    >
+      {{ actionItem.label }}
+    </button>
+  </div>
+</div>

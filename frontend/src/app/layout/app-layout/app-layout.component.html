@@ -5,38 +5,64 @@
     </a>
 
     <nav class='hidden items-center gap-5 text-sm font-medium text-slate-700 lg:flex'>
-      <div class='group relative'>
-        <button class='inline-flex items-center gap-1.5 py-2 text-slate-700 hover:text-slate-900'>
+      <div class='relative'>
+        <button
+          class='inline-flex items-center gap-1.5 py-2 text-slate-700 hover:text-slate-900'
+          type='button'
+          aria-haspopup='menu'
+          [attr.aria-expanded]='desktopOpen() === groups[0].label'
+          (click)='toggleDesktop(groups[0].label, $event)'
+          (keydown)='handleDropdownKey(groups[0].label, $event)'
+        >
           Der Verein
           <span class='text-xs text-slate-400'>v</span>
         </button>
         <div
-          class='invisible absolute left-0 top-full mt-2 w-60 rounded-lg border border-slate-200 bg-white p-2 shadow-lg opacity-0 transition group-hover:visible group-hover:opacity-100'
+          role='menu'
+          class='absolute left-0 top-full mt-2 w-60 rounded-lg border border-slate-200 bg-white p-2 shadow-lg transition'
+          [class.opacity-0]='desktopOpen() !== groups[0].label'
+          [class.invisible]='desktopOpen() !== groups[0].label'
+          [class.opacity-100]='desktopOpen() === groups[0].label'
+          [class.visible]='desktopOpen() === groups[0].label'
         >
           <a
             *ngFor='let link of groups[0].links'
             class='block rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
             [routerLink]='link.path'
             routerLinkActive='bg-slate-100 text-slate-900'
+            (click)='closeDesktop()'
           >
             {{ link.label }}
           </a>
         </div>
       </div>
 
-      <div class='group relative'>
-        <button class='inline-flex items-center gap-1.5 py-2 text-slate-700 hover:text-slate-900'>
+      <div class='relative'>
+        <button
+          class='inline-flex items-center gap-1.5 py-2 text-slate-700 hover:text-slate-900'
+          type='button'
+          aria-haspopup='menu'
+          [attr.aria-expanded]='desktopOpen() === groups[1].label'
+          (click)='toggleDesktop(groups[1].label, $event)'
+          (keydown)='handleDropdownKey(groups[1].label, $event)'
+        >
           Aktuelles
           <span class='text-xs text-slate-400'>v</span>
         </button>
         <div
-          class='invisible absolute left-0 top-full mt-2 w-60 rounded-lg border border-slate-200 bg-white p-2 shadow-lg opacity-0 transition group-hover:visible group-hover:opacity-100'
+          role='menu'
+          class='absolute left-0 top-full mt-2 w-60 rounded-lg border border-slate-200 bg-white p-2 shadow-lg transition'
+          [class.opacity-0]='desktopOpen() !== groups[1].label'
+          [class.invisible]='desktopOpen() !== groups[1].label'
+          [class.opacity-100]='desktopOpen() === groups[1].label'
+          [class.visible]='desktopOpen() === groups[1].label'
         >
           <a
             *ngFor='let link of groups[1].links'
             class='block rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
             [routerLink]='link.path'
             routerLinkActive='bg-slate-100 text-slate-900'
+            (click)='closeDesktop()'
           >
             {{ link.label }}
           </a>
@@ -52,13 +78,44 @@
         {{ link.label }}
       </a>
 
-      <div class='relative hidden items-center lg:flex'>
+      <div class='relative hidden items-center lg:flex' (click)='$event.stopPropagation()'>
         <input
           class='h-9 w-48 rounded-full border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-300 focus:outline-none'
           type='search'
           placeholder='Suche'
+          [value]='searchQuery'
+          (input)='onSearchInput($any($event.target).value)'
+          (focus)='onSearchInput($any($event.target).value)'
+          (keydown)='handleSearchKey($event)'
         />
         <span class='absolute left-3 text-xs text-slate-400'>o</span>
+        <div
+          *ngIf='searchOpen()'
+          class='absolute right-0 top-12 z-50 w-80 rounded-2xl border border-slate-200 bg-white p-2 shadow-lg'
+        >
+          <div *ngIf='searchLoading' class='px-3 py-2 text-sm text-slate-500'>Suche laedt...</div>
+          <ng-container *ngIf='!searchLoading'>
+            <div *ngIf='searchRows.length === 0' class='px-3 py-2 text-sm text-slate-500'>Keine Treffer.</div>
+            <div *ngFor='let row of searchRows' class='space-y-1'>
+              <div *ngIf='row.kind === "header"' class='px-3 pt-2 text-xs font-semibold uppercase tracking-wide text-slate-400'>
+                {{ row.label }}
+              </div>
+              <button
+                *ngIf='row.kind === "item"'
+                class='flex w-full items-start justify-between rounded-xl px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100'
+                [class.bg-slate-100]='row.index === activeIndex'
+                type='button'
+                (mouseenter)='setActive(row.index)'
+                (click)='selectResult(row.item!)'
+              >
+                <span class='font-medium text-slate-900'>{{ row.item?.title }}</span>
+                <span class='ml-4 text-xs text-slate-400'>
+                  {{ row.item?.subtitle }}<span *ngIf='row.item?.date'> · {{ row.item?.date | date: "dd.MM.yyyy" }}</span>
+                </span>
+              </button>
+            </div>
+          </ng-container>
+        </div>
       </div>
     </nav>
 
@@ -66,6 +123,7 @@
       class='inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 text-slate-700 hover:bg-slate-100 lg:hidden'
       type='button'
       (click)='toggleMobile()'
+      (click)='closeDesktop()'
       aria-label='Menue oeffnen'
     >
       <span class='text-lg'>=</span>
@@ -88,14 +146,45 @@
       </button>
     </div>
     <div class='space-y-5 px-4 py-6'>
-      <div class='rounded-xl border border-slate-200 bg-white px-3 py-2'>
+      <div class='rounded-xl border border-slate-200 bg-white px-3 py-2' (click)='$event.stopPropagation()'>
         <div class='relative'>
           <input
             class='h-10 w-full rounded-lg border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-700 placeholder:text-slate-400'
             type='search'
             placeholder='Suche'
+            [value]='searchQuery'
+            (input)='onSearchInput($any($event.target).value)'
+            (focus)='onSearchInput($any($event.target).value)'
+            (keydown)='handleSearchKey($event)'
           />
           <span class='absolute left-3 top-3 text-xs text-slate-400'>o</span>
+          <div
+            *ngIf='searchOpen()'
+            class='absolute left-0 top-12 z-50 w-full rounded-2xl border border-slate-200 bg-white p-2 shadow-lg'
+          >
+            <div *ngIf='searchLoading' class='px-3 py-2 text-sm text-slate-500'>Suche laedt...</div>
+          <ng-container *ngIf='!searchLoading'>
+            <div *ngIf='searchRows.length === 0' class='px-3 py-2 text-sm text-slate-500'>Keine Treffer.</div>
+            <div *ngFor='let row of searchRows' class='space-y-1'>
+                <div *ngIf='row.kind === "header"' class='px-3 pt-2 text-xs font-semibold uppercase tracking-wide text-slate-400'>
+                  {{ row.label }}
+                </div>
+                <button
+                  *ngIf='row.kind === "item"'
+                  class='flex w-full items-start justify-between rounded-xl px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100'
+                  [class.bg-slate-100]='row.index === activeIndex'
+                  type='button'
+                  (mouseenter)='setActive(row.index)'
+                  (click)='selectResult(row.item!)'
+                >
+                  <span class='font-medium text-slate-900'>{{ row.item?.title }}</span>
+                  <span class='ml-4 text-xs text-slate-400'>
+                    {{ row.item?.subtitle }}<span *ngIf='row.item?.date'> · {{ row.item?.date | date: "dd.MM.yyyy" }}</span>
+                  </span>
+                </button>
+              </div>
+            </ng-container>
+          </div>
         </div>
       </div>
 
@@ -139,6 +228,11 @@
 
 <main class='bg-slate-50'>
   <app-container className='py-8'>
+    <app-status-banner
+      [status]='status$ | async'
+      (dismiss)='dismissStatus()'
+      (action)='handleStatusAction($event)'
+    />
     <router-outlet />
   </app-container>
 </main>

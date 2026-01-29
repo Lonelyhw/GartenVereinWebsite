@@ -1,16 +1,24 @@
 import { Component } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { DatePipe, NgFor, NgIf, AsyncPipe } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Observable, combineLatest, map, of } from 'rxjs';
+import { catchError, shareReplay } from 'rxjs/operators';
 import { ImageCardComponent } from '../../shared/image-card/image-card.component';
+import { NewsService } from '../../core/services/news.service';
+import { NewsPost } from '../../core/models/news-post.model';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgFor, NgIf, ImageCardComponent],
+  imports: [AsyncPipe, DatePipe, NgFor, NgIf, RouterLink, ImageCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
   protected readonly admin = false;
+  protected readonly news$: Observable<Array<NewsPost & { teaser: string; highlight: boolean }>>;
+  private readonly query$: Observable<string>;
+  private readonly baseNews$: Observable<NewsPost[]>;
 
   protected readonly cards = [
     {
@@ -70,4 +78,32 @@ export class HomeComponent {
       adminOnly: true
     }
   ];
+
+  constructor(
+    private readonly newsService: NewsService,
+    private readonly route: ActivatedRoute
+  ) {
+    this.query$ = this.route.queryParamMap.pipe(
+      map((params) => (params.get('q') ?? '').trim().toLowerCase())
+    );
+    this.baseNews$ = this.newsService.getPublishedSorted().pipe(
+      catchError(() => of([])),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
+    this.news$ = combineLatest([this.baseNews$, this.query$]).pipe(
+      map(([items, query]) =>
+        items.map((item) => {
+          const content = item.content ?? '';
+          const highlight =
+            !!query &&
+            (item.title.toLowerCase().includes(query) || content.toLowerCase().includes(query));
+          return {
+            ...item,
+            teaser: content.length > 160 ? `${content.slice(0, 160)}...` : content,
+            highlight
+          };
+        })
+      )
+    );
+  }
 }

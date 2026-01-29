@@ -19,11 +19,16 @@ spring:
 management:
   endpoints:
     web:
+      base-path: /api/actuator
       exposure:
         include: health
   endpoint:
     health:
       show-details: never
+
+app:
+  upload:
+    dir: /data/uploads
 
 ---
 spring:

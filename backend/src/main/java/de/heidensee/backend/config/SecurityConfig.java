@@ -22,7 +22,8 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.GET, "/api/rental/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/gardens/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/events/**").permitAll()
-            .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
+            .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/actuator/health").permitAll()
             .requestMatchers("/api/**").hasRole("ADMIN")
             .anyRequest().denyAll())
         .httpBasic(Customizer.withDefaults());

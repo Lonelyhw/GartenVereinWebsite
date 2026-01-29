@@ -8,6 +8,7 @@ import { DokumenteComponent } from './pages/dokumente/dokumente.component';
 import { VerleihComponent } from './pages/verleih/verleih.component';
 import { VereinslebenComponent } from './pages/vereinsleben/vereinsleben.component';
 import { InternComponent } from './pages/intern/intern.component';
+import { NewsDetailComponent } from './pages/news-detail/news-detail.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,4 +20,5 @@ export const routes: Routes = [
   { path: 'verleih', component: VerleihComponent },
   { path: 'vereinsleben', component: VereinslebenComponent },
   { path: 'intern', component: InternComponent },
+  { path: 'news/:id', component: NewsDetailComponent },
 ];

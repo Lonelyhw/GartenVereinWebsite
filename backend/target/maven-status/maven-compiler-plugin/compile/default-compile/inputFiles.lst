@@ -1,5 +1,7 @@
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\config\CorsConfig.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\config\SecurityConfig.java
+C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\config\seed\NewsSeedConfig.java
+C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\config\UploadsResourceConfig.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\controller\BoardMemberController.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\controller\ClubEventController.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\controller\DocumentItemController.java
@@ -7,6 +9,7 @@ C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\ba
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\controller\NewsPostController.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\controller\NoticeController.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\controller\RentalItemController.java
+C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\controller\UploadController.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\domain\BoardMember.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\domain\ClubEvent.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\domain\DocumentItem.java
@@ -21,6 +24,7 @@ C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\ba
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\dto\NewsPostRequest.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\dto\NoticeRequest.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\dto\RentalItemRequest.java
+C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\dto\UploadResponse.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\GartenvereinBackendApplication.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\repo\BoardMemberRepository.java
 C:\Users\judoh\Desktop\GartenVereinWebsite\backend\src\main\java\de\heidensee\backend\repo\ClubEventRepository.java
