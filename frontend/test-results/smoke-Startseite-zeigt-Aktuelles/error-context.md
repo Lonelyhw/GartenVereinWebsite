@@ -1,0 +1,129 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "Kleingartenverein am Heidensee e.V." [ref=e7] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e8]:
+        - button "Der Verein v" [ref=e10]:
+          - text: Der Verein
+          - generic [ref=e11]: v
+        - button "Aktuelles v" [ref=e13]:
+          - text: Aktuelles
+          - generic [ref=e14]: v
+        - link "Vereinshaus" [ref=e15] [cursor=pointer]:
+          - /url: /vereinshaus
+        - link "Verleih" [ref=e16] [cursor=pointer]:
+          - /url: /verleih
+        - generic [ref=e17]:
+          - searchbox "Suche" [ref=e18]
+          - generic [ref=e19]: o
+  - main [ref=e20]:
+    - generic [ref=e24]:
+      - generic [ref=e26]:
+        - paragraph [ref=e27]: Kleingartenverein
+        - heading "Herzlich Willkommen" [level=1] [ref=e28]
+        - paragraph [ref=e29]: Der Kleingartenverein am Heidensee e.V. bietet Gruen, Gemeinschaft und Raum fuer Erholung. Entdecken Sie aktuelle Hinweise, Veranstaltungen und Angebote rund um unser Vereinsleben.
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - heading "Aktuelles" [level=2] [ref=e32]
+          - generic [ref=e33]: Neueste Beitraege
+        - generic [ref=e34]:
+          - article [ref=e35]:
+            - heading "Hinweis zu Ruhezeiten" [level=3] [ref=e36]
+            - paragraph [ref=e37]: 28.01.2026
+            - paragraph [ref=e38]: Bitte beachten Sie die Ruhezeiten werktags ab 20:00 Uhr sowie sonn- und feiertags ganztags.
+            - link "Weiterlesen" [ref=e39] [cursor=pointer]:
+              - /url: /news/7
+          - article [ref=e40]:
+            - heading "Vorstandswahl im Juli" [level=3] [ref=e41]
+            - paragraph [ref=e42]: 28.01.2026
+            - paragraph [ref=e43]: Die Wahl findet in der Mitgliederversammlung statt. Vorschlaege fuer Kandidaten bitte bis Ende Juni einreichen.
+            - link "Weiterlesen" [ref=e44] [cursor=pointer]:
+              - /url: /news/6
+          - article [ref=e45]:
+            - heading "Sommerfest am Heidensee" [level=3] [ref=e46]
+            - paragraph [ref=e47]: 28.01.2026
+            - paragraph [ref=e48]: Wir feiern am 15. Juni mit Musik, Grill und Kinderprogramm. Helferinnen und Helfer bitte beim Vorstand melden.
+            - link "Weiterlesen" [ref=e49] [cursor=pointer]:
+              - /url: /news/5
+          - article [ref=e50]:
+            - heading "Muellcontainer Termine" [level=3] [ref=e51]
+            - paragraph [ref=e52]: 28.01.2026
+            - paragraph [ref=e53]: Der Sperrmuell-Container steht an den Samstagen im April und Mai bereit. Bitte keine Elektrogeraete einwerfen.
+            - link "Weiterlesen" [ref=e54] [cursor=pointer]:
+              - /url: /news/4
+          - article [ref=e55]:
+            - heading "Gemeinschaftsarbeit Fruehjahrsputz" [level=3] [ref=e56]
+            - paragraph [ref=e57]: 28.01.2026
+            - paragraph [ref=e58]: "Treffpunkt 9:00 Uhr am Vereinsheim. Aufgaben: Wege reinigen, Hecken rueckschneiden, Spielplatz kontrollieren."
+            - link "Weiterlesen" [ref=e59] [cursor=pointer]:
+              - /url: /news/3
+          - article [ref=e60]:
+            - heading "Wasser anstellen" [level=3] [ref=e61]
+            - paragraph [ref=e62]: 28.01.2026
+            - paragraph [ref=e63]: Das Wasser wird in der Anlage am kommenden Samstag wieder angestellt. Bitte alle Hauptventile in den Parzellen schliessen.
+            - link "Weiterlesen" [ref=e64] [cursor=pointer]:
+              - /url: /news/2
+          - article [ref=e65]:
+            - heading "Saisoneroeffnung 2026" [level=3] [ref=e66]
+            - paragraph [ref=e67]: 28.01.2026
+            - paragraph [ref=e68]: Wir starten am ersten Aprilwochenende in die neue Gartensaison. Bitte pruefen Sie Ihre Parzellen und melden Sie Schaeden am Vereinsheim.
+            - link "Weiterlesen" [ref=e69] [cursor=pointer]:
+              - /url: /news/1
+      - generic [ref=e70]:
+        - generic [ref=e71]:
+          - heading "Wichtige Bereiche" [level=2] [ref=e72]
+          - generic [ref=e73]: Schnellzugriff
+        - generic [ref=e74]:
+          - link "Aktuelles Neuigkeiten und wichtige Hinweise aus dem Verein." [ref=e76] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e79]:
+              - heading "Aktuelles" [level=3] [ref=e81]
+              - paragraph [ref=e82]: Neuigkeiten und wichtige Hinweise aus dem Verein.
+          - link "Freie Gaerten Aktuelle Verfuegbarkeiten und Bewerbungshinweise." [ref=e84] [cursor=pointer]:
+            - /url: /freie-gaerten
+            - generic [ref=e87]:
+              - heading "Freie Gaerten" [level=3] [ref=e89]
+              - paragraph [ref=e90]: Aktuelle Verfuegbarkeiten und Bewerbungshinweise.
+          - link "Vereinsleben Termine, Aktionen und Veranstaltungen im Blick." [ref=e92] [cursor=pointer]:
+            - /url: /vereinsleben
+            - generic [ref=e95]:
+              - heading "Vereinsleben" [level=3] [ref=e97]
+              - paragraph [ref=e98]: Termine, Aktionen und Veranstaltungen im Blick.
+          - link "Vorstand Ansprechpersonen, Aufgaben und Zustaendigkeiten." [ref=e100] [cursor=pointer]:
+            - /url: /vorstand
+            - generic [ref=e103]:
+              - heading "Vorstand" [level=3] [ref=e105]
+              - paragraph [ref=e106]: Ansprechpersonen, Aufgaben und Zustaendigkeiten.
+          - link "Vereinshaus Informationen rund um Nutzung und Ausstattung." [ref=e108] [cursor=pointer]:
+            - /url: /vereinshaus
+            - generic [ref=e111]:
+              - heading "Vereinshaus" [level=3] [ref=e113]
+              - paragraph [ref=e114]: Informationen rund um Nutzung und Ausstattung.
+          - link "Aushaenge Wichtige Mitteilungen und Bekanntmachungen." [ref=e116] [cursor=pointer]:
+            - /url: /aushange
+            - generic [ref=e119]:
+              - heading "Aushaenge" [level=3] [ref=e121]
+              - paragraph [ref=e122]: Wichtige Mitteilungen und Bekanntmachungen.
+          - link "Dokumente Formulare, Satzung und Vereinsunterlagen." [ref=e124] [cursor=pointer]:
+            - /url: /dokumente
+            - generic [ref=e127]:
+              - heading "Dokumente" [level=3] [ref=e129]
+              - paragraph [ref=e130]: Formulare, Satzung und Vereinsunterlagen.
+          - link "Verleih Geraete und Ausstattung fuer Mitglieder." [ref=e132] [cursor=pointer]:
+            - /url: /verleih
+            - generic [ref=e135]:
+              - heading "Verleih" [level=3] [ref=e137]
+              - paragraph [ref=e138]: Geraete und Ausstattung fuer Mitglieder.
+  - contentinfo [ref=e139]:
+    - generic [ref=e141]:
+      - generic [ref=e142]:
+        - paragraph [ref=e143]: Kleingartenverein am Heidensee e.V.
+        - paragraph [ref=e144]: info@kgv-heidensee.de
+      - generic [ref=e145]:
+        - generic [ref=e146]: Impressum (Platzhalter)
+        - generic [ref=e147]: Kontakt (Platzhalter)
+```

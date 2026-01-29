@@ -7,7 +7,8 @@ import { DocumentService, DocumentItem } from '../../core/services/document.serv
 import { NoticeService, Notice } from '../../core/services/notice.service';
 import { UploadService } from '../../core/services/upload.service';
 import { StatusService } from '../../core/services/status.service';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
+import { renderMarkdown } from '../../shared/markdown';
 
 @Component({
   selector: 'app-intern',
@@ -17,6 +18,7 @@ import { BehaviorSubject, Observable, switchMap } from 'rxjs';
   styleUrl: './intern.component.scss'
 })
 export class InternComponent {
+  protected readonly renderMarkdown = renderMarkdown;
   protected username = '';
   protected password = '';
   protected remember = true;
@@ -29,17 +31,27 @@ export class InternComponent {
     switchMap(() => this.documentService.getAll())
   );
   protected readonly notices$: Observable<Notice[]> = this.noticeRefresh$.pipe(
-    switchMap(() => this.noticeService.getAll())
+    switchMap(() => this.noticeService.getAllAdmin())
+  );
+  protected readonly activeNotices$: Observable<Notice[]> = this.notices$.pipe(
+    map((items) => items.filter((item) => item.active))
+  );
+  protected readonly archivedNotices$: Observable<Notice[]> = this.notices$.pipe(
+    map((items) => items.filter((item) => !item.active))
   );
 
   protected docTitle = '';
   protected docDescription = '';
   protected docCategory = '';
   protected docFile: File | null = null;
+  protected docError = '';
 
   protected noticeTitle = '';
   protected noticeContent = '';
   protected noticeFile: File | null = null;
+  protected noticeTab: 'active' | 'archived' = 'active';
+  protected noticeError = '';
+  protected noticePreview = false;
 
   constructor(
     private readonly authService: AdminAuthService,
@@ -80,12 +92,15 @@ export class InternComponent {
   }
 
   protected saveDocument(): void {
+    this.docError = '';
     if (!this.docFile) {
       this.statusService.showError('Bitte eine PDF-Datei auswaehlen.');
+      this.docError = 'Bitte eine PDF-Datei auswaehlen.';
       return;
     }
     if (this.docFile.type !== 'application/pdf') {
       this.statusService.showError('Bitte nur PDF-Dateien hochladen.');
+      this.docError = 'Bitte nur PDF-Dateien hochladen.';
       return;
     }
 
@@ -104,6 +119,7 @@ export class InternComponent {
               this.docDescription = '';
               this.docCategory = '';
               this.docFile = null;
+              this.docError = '';
               this.documentRefresh$.next();
               this.statusService.showSuccess('Gespeichert.');
             }
@@ -111,18 +127,23 @@ export class InternComponent {
       },
       error: () => {
         this.statusService.showError('Upload fehlgeschlagen.');
+        this.docError = 'Upload fehlgeschlagen.';
       }
     });
   }
 
   protected saveNotice(): void {
+    this.noticeError = '';
+    this.noticePreview = false;
     if (!this.noticeFile) {
       this.statusService.showError('Bitte ein Bild auswaehlen.');
+      this.noticeError = 'Bitte ein Bild auswaehlen.';
       return;
     }
     const allowed = ['image/jpeg', 'image/png', 'image/webp'];
     if (!allowed.includes(this.noticeFile.type)) {
       this.statusService.showError('Bitte nur JPG, PNG oder WEBP hochladen.');
+      this.noticeError = 'Bitte nur JPG, PNG oder WEBP hochladen.';
       return;
     }
 
@@ -142,6 +163,8 @@ export class InternComponent {
               this.noticeTitle = '';
               this.noticeContent = '';
               this.noticeFile = null;
+              this.noticeError = '';
+              this.noticePreview = false;
               this.noticeRefresh$.next();
               this.statusService.showSuccess('Gespeichert.');
             }
@@ -149,7 +172,27 @@ export class InternComponent {
       },
       error: () => {
         this.statusService.showError('Upload fehlgeschlagen.');
+        this.noticeError = 'Upload fehlgeschlagen.';
       }
     });
+  }
+
+  protected archiveNotice(notice: Notice): void {
+    this.noticeService
+      .update(notice.id, {
+        title: notice.title,
+        content: notice.content,
+        active: false,
+        expiresAt: notice.expiresAt ?? null
+      })
+      .subscribe({
+        next: () => {
+          this.noticeRefresh$.next();
+          this.statusService.showSuccess('Gespeichert.');
+        },
+        error: () => {
+          this.statusService.showError('Archivieren fehlgeschlagen.');
+        }
+      });
   }
 }

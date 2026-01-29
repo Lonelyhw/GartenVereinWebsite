@@ -32,6 +32,8 @@ public class Notice {
   @Column(nullable = false)
   private boolean active;
 
+  private LocalDateTime expiresAt;
+
   @PrePersist
   void onCreate() {
     createdAt = LocalDateTime.now();

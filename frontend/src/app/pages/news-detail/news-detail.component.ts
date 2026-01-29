@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { NewsService } from '../../core/services/news.service';
 import { NewsPost } from '../../core/models/news-post.model';
+import { renderMarkdown } from '../../shared/markdown';
 
 type NewsDetailState =
   | { status: 'loading' }
@@ -20,6 +21,7 @@ type NewsDetailState =
 })
 export class NewsDetailComponent {
   protected readonly state$: Observable<NewsDetailState>;
+  protected readonly renderMarkdown = renderMarkdown;
 
   constructor(
     private readonly route: ActivatedRoute,

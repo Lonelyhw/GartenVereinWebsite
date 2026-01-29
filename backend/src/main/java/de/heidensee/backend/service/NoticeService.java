@@ -20,6 +20,10 @@ public class NoticeService {
     return repository.findAll();
   }
 
+  public List<Notice> findActive() {
+    return repository.findByActiveTrueOrderByCreatedAtDesc();
+  }
+
   public Notice findById(Long id) {
     return repository.findById(id)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Notice not found"));
@@ -48,5 +52,6 @@ public class NoticeService {
     notice.setTitle(request.title());
     notice.setContent(request.content());
     notice.setActive(Boolean.TRUE.equals(request.active()));
+    notice.setExpiresAt(request.expiresAt());
   }
 }

@@ -9,6 +9,7 @@ export interface Notice {
   content: string;
   createdAt: string;
   active: boolean;
+  expiresAt?: string | null;
 }
 
 @Injectable({
@@ -23,7 +24,15 @@ export class NoticeService {
     return this.http.get<Notice[]>(this.baseUrl);
   }
 
-  create(payload: { title: string; content: string; active: boolean }): Observable<Notice> {
+  getAllAdmin(): Observable<Notice[]> {
+    return this.http.get<Notice[]>(`${this.baseUrl}/admin`);
+  }
+
+  create(payload: { title: string; content: string; active: boolean; expiresAt?: string | null }): Observable<Notice> {
     return this.http.post<Notice>(this.baseUrl, payload);
+  }
+
+  update(id: number, payload: { title: string; content: string; active: boolean; expiresAt?: string | null }): Observable<Notice> {
+    return this.http.put<Notice>(`${this.baseUrl}/${id}`, payload);
   }
 }

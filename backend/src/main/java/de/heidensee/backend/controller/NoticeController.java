@@ -27,6 +27,11 @@ public class NoticeController {
 
   @GetMapping
   public List<Notice> list() {
+    return service.findActive();
+  }
+
+  @GetMapping("/admin")
+  public List<Notice> listAll() {
     return service.findAll();
   }
 

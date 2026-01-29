@@ -19,7 +19,11 @@
           </div>
           <div class='p-4'>
             <h3 class='text-base font-semibold text-slate-900'>{{ notice.title }}</h3>
-            <p *ngIf='notice.text' class='mt-2 text-sm text-slate-600'>{{ notice.text }}</p>
+            <div
+              *ngIf='notice.text'
+              class='mt-2 space-y-2 text-sm text-slate-600'
+              [innerHTML]='renderMarkdown(notice.text)'
+            ></div>
           </div>
         </article>
       </div>

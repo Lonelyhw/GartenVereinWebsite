@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { NoticeService, Notice } from '../../core/services/notice.service';
 import { Observable, map } from 'rxjs';
+import { renderMarkdown } from '../../shared/markdown';
 
 interface NoticeView {
   id: number;
@@ -18,6 +19,7 @@ interface NoticeView {
   styleUrl: './aushange.component.scss'
 })
 export class AushangeComponent {
+  private readonly noticeService = inject(NoticeService);
   protected readonly notices$: Observable<NoticeView[]> = this.noticeService.getAll().pipe(
     map((items) =>
       items
@@ -29,8 +31,7 @@ export class AushangeComponent {
         }))
     )
   );
-
-  constructor(private readonly noticeService: NoticeService) {}
+  protected readonly renderMarkdown = renderMarkdown;
 
   private parseNoticeContent(notice: Notice): { imageUrl: string; text?: string } {
     if (!notice.content) {

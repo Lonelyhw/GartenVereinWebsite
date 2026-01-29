@@ -3,6 +3,8 @@ import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NewsService, NewsPostPayload } from '../../core/services/news.service';
 import { NewsPost } from '../../core/models/news-post.model';
+import { StatusService } from '../../core/services/status.service';
+import { renderMarkdown } from '../../shared/markdown';
 
 @Component({
   selector: 'app-intern-news-section',
@@ -17,13 +19,18 @@ export class InternNewsSectionComponent implements OnInit {
 
   protected formOpen = false;
   protected editingId: number | null = null;
+  protected preview = false;
+  protected readonly renderMarkdown = renderMarkdown;
   protected form: NewsPostPayload = {
     title: '',
     content: '',
     published: true
   };
 
-  constructor(private readonly newsService: NewsService) {}
+  constructor(
+    private readonly newsService: NewsService,
+    private readonly statusService: StatusService
+  ) {}
 
   ngOnInit(): void {
     this.loadNews();
@@ -32,6 +39,7 @@ export class InternNewsSectionComponent implements OnInit {
   protected startCreate(): void {
     this.formOpen = true;
     this.editingId = null;
+    this.preview = false;
     this.form = {
       title: '',
       content: '',
@@ -42,6 +50,7 @@ export class InternNewsSectionComponent implements OnInit {
   protected startEdit(item: NewsPost): void {
     this.formOpen = true;
     this.editingId = item.id;
+    this.preview = false;
     this.form = {
       title: item.title,
       content: item.content,
@@ -52,6 +61,7 @@ export class InternNewsSectionComponent implements OnInit {
   protected cancel(): void {
     this.formOpen = false;
     this.editingId = null;
+    this.preview = false;
     this.errorMessage = '';
   }
 
@@ -71,7 +81,9 @@ export class InternNewsSectionComponent implements OnInit {
       next: () => {
         this.formOpen = false;
         this.editingId = null;
+        this.preview = false;
         this.loadNews();
+        this.statusService.showSuccess('Gespeichert.');
       },
       error: (err) => {
         if (err?.status === 401 || err?.status === 403) {
@@ -85,13 +97,14 @@ export class InternNewsSectionComponent implements OnInit {
 
   protected delete(item: NewsPost): void {
     this.errorMessage = '';
-    if (!confirm(`Beitrag "${item.title}" loeschen?`)) {
+    if (!confirm('Wirklich loeschen? Das kann nicht rueckgaengig gemacht werden.')) {
       return;
     }
 
     this.newsService.delete(item.id).subscribe({
       next: () => {
         this.loadNews();
+        this.statusService.showSuccess('Gespeichert.');
       },
       error: (err) => {
         if (err?.status === 401 || err?.status === 403) {

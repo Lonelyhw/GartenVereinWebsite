@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { DocumentService, DocumentItem } from '../../core/services/document.service';
 import { Observable } from 'rxjs';
@@ -11,7 +11,6 @@ import { Observable } from 'rxjs';
   styleUrl: './dokumente.component.scss'
 })
 export class DokumenteComponent {
+  private readonly documentService = inject(DocumentService);
   protected readonly documents$: Observable<DocumentItem[]> = this.documentService.getAll();
-
-  constructor(private readonly documentService: DocumentService) {}
 }
