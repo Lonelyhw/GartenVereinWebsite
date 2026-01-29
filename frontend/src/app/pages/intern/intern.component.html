@@ -20,6 +20,7 @@
           class='mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700'
           type='text'
           [(ngModel)]='username'
+          data-testid='admin-username'
         />
       </div>
       <div>
@@ -28,6 +29,7 @@
           class='mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700'
           type='password'
           [(ngModel)]='password'
+          data-testid='admin-password'
         />
       </div>
       <label class='mt-6 inline-flex items-center gap-2 text-sm text-slate-600'>
@@ -41,6 +43,7 @@
         class='rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700'
         type='button'
         (click)='login()'
+        data-testid='admin-login'
       >
         Anmelden
       </button>
@@ -64,21 +67,38 @@
     <div class='mt-4 grid gap-4 md:grid-cols-2'>
       <div>
         <label class='text-sm font-semibold text-slate-700'>Titel</label>
-        <input class='mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700' [(ngModel)]='docTitle' />
+        <input
+          class='mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700'
+          [(ngModel)]='docTitle'
+          data-testid='doc-title'
+        />
       </div>
       <div>
         <label class='text-sm font-semibold text-slate-700'>Kategorie</label>
-        <input class='mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700' [(ngModel)]='docCategory' />
+        <input
+          class='mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700'
+          [(ngModel)]='docCategory'
+          data-testid='doc-category'
+        />
       </div>
       <div class='md:col-span-2'>
         <label class='text-sm font-semibold text-slate-700'>Beschreibung</label>
-        <textarea class='mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700' [(ngModel)]='docDescription'></textarea>
+        <textarea
+          class='mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700'
+          [(ngModel)]='docDescription'
+          data-testid='doc-description'
+        ></textarea>
       </div>
       <div class='md:col-span-2'>
-        <input type='file' accept='application/pdf' (change)='onDocFileSelected($event)' />
+        <input type='file' accept='application/pdf' (change)='onDocFileSelected($event)' data-testid='doc-file' />
       </div>
     </div>
-    <button class='mt-4 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700' type='button' (click)='saveDocument()'>
+    <button
+      class='mt-4 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700'
+      type='button'
+      (click)='saveDocument()'
+      data-testid='doc-save'
+    >
       Speichern
     </button>
 
@@ -121,11 +141,19 @@
     <div class='mt-4 grid gap-4 md:grid-cols-2'>
       <div>
         <label class='text-sm font-semibold text-slate-700'>Titel</label>
-        <input class='mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700' [(ngModel)]='noticeTitle' />
+        <input
+          class='mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700'
+          [(ngModel)]='noticeTitle'
+          data-testid='notice-title'
+        />
       </div>
       <div class='md:col-span-2'>
         <label class='text-sm font-semibold text-slate-700'>Hinweis (optional)</label>
-        <textarea class='mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700' [(ngModel)]='noticeContent'></textarea>
+        <textarea
+          class='mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700'
+          [(ngModel)]='noticeContent'
+          data-testid='notice-content'
+        ></textarea>
         <div class='mt-2 flex items-center gap-2 text-sm text-slate-600'>
           <input type='checkbox' [(ngModel)]='noticePreview' />
           Vorschau anzeigen
@@ -137,10 +165,20 @@
         ></div>
       </div>
       <div class='md:col-span-2'>
-        <input type='file' accept='image/jpeg,image/png,image/webp' (change)='onNoticeFileSelected($event)' />
+        <input
+          type='file'
+          accept='image/jpeg,image/png,image/webp'
+          (change)='onNoticeFileSelected($event)'
+          data-testid='notice-file'
+        />
       </div>
     </div>
-    <button class='mt-4 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700' type='button' (click)='saveNotice()'>
+    <button
+      class='mt-4 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700'
+      type='button'
+      (click)='saveNotice()'
+      data-testid='notice-save'
+    >
       Speichern
     </button>
 

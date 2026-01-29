@@ -1,6 +1,11 @@
-<div *ngIf='status' class='mb-6 rounded-2xl border px-4 py-3 text-sm shadow-sm' [class]='getClasses(status.type)'>
+<div
+  *ngIf='status'
+  data-testid='status-banner'
+  class='mb-6 rounded-2xl border px-4 py-3 text-sm shadow-sm'
+  [class]='getClasses(status.type)'
+>
   <div class='flex items-start justify-between gap-4'>
-    <p class='leading-relaxed'>{{ status.message }}</p>
+    <p class='leading-relaxed' data-testid='status-message'>{{ status.message }}</p>
     <button
       class='shrink-0 rounded-full border border-transparent px-2 py-1 text-xs font-semibold hover:bg-white/60'
       type='button'

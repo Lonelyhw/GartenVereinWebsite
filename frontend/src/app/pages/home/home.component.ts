@@ -22,12 +22,6 @@ export class HomeComponent {
 
   protected readonly cards = [
     {
-      title: 'Aktuelles',
-      description: 'Neuigkeiten und wichtige Hinweise aus dem Verein.',
-      route: '/',
-      imageUrl: 'assets/images/aktuell.jpg'
-    },
-    {
       title: 'Freie Gaerten',
       description: 'Aktuelle Verfuegbarkeiten und Bewerbungshinweise.',
       route: '/freie-gaerten',

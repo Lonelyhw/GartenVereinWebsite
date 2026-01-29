@@ -83,6 +83,7 @@
           class='h-9 w-48 rounded-full border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-300 focus:outline-none'
           type='search'
           placeholder='Suche'
+          data-testid='search-input'
           [value]='searchQuery'
           (input)='onSearchInput($any($event.target).value)'
           (focus)='onSearchInput($any($event.target).value)'
@@ -91,6 +92,7 @@
         <span class='absolute left-3 text-xs text-slate-400'>o</span>
         <div
           *ngIf='searchOpen()'
+          data-testid='search-results'
           class='absolute right-0 top-12 z-50 w-80 rounded-2xl border border-slate-200 bg-white p-2 shadow-lg'
         >
           <div *ngIf='searchLoading' class='px-3 py-2 text-sm text-slate-500'>Suche laedt...</div>
@@ -104,6 +106,7 @@
                 *ngIf='row.kind === "item"'
                 class='flex w-full items-start justify-between rounded-xl px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100'
                 [class.bg-slate-100]='row.index === activeIndex'
+                role='link'
                 type='button'
                 (mouseenter)='setActive(row.index)'
                 (click)='selectResult(row.item!)'
@@ -152,6 +155,7 @@
             class='h-10 w-full rounded-lg border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-700 placeholder:text-slate-400'
             type='search'
             placeholder='Suche'
+            data-testid='search-input-mobile'
             [value]='searchQuery'
             (input)='onSearchInput($any($event.target).value)'
             (focus)='onSearchInput($any($event.target).value)'
@@ -160,6 +164,7 @@
           <span class='absolute left-3 top-3 text-xs text-slate-400'>o</span>
           <div
             *ngIf='searchOpen()'
+            data-testid='search-results'
             class='absolute left-0 top-12 z-50 w-full rounded-2xl border border-slate-200 bg-white p-2 shadow-lg'
           >
             <div *ngIf='searchLoading' class='px-3 py-2 text-sm text-slate-500'>Suche laedt...</div>
@@ -173,6 +178,7 @@
                   *ngIf='row.kind === "item"'
                   class='flex w-full items-start justify-between rounded-xl px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100'
                   [class.bg-slate-100]='row.index === activeIndex'
+                  role='link'
                   type='button'
                   (mouseenter)='setActive(row.index)'
                   (click)='selectResult(row.item!)'

@@ -1,6 +1,10 @@
 package de.heidensee.backend.repo;
 
 import de.heidensee.backend.domain.NewsPost;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface NewsPostRepository extends JpaRepository<NewsPost, Long> {}
+public interface NewsPostRepository extends JpaRepository<NewsPost, Long> {
+  List<NewsPost> findAllByOrderByCreatedAtDesc();
+  List<NewsPost> findByPublishedTrueOrderByCreatedAtDesc();
+}

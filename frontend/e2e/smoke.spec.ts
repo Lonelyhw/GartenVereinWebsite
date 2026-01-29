@@ -18,5 +18,7 @@ test('Suche findet Vereinshaus', async ({ page }) => {
   await page.goto('/');
   const searchInput = page.getByPlaceholder('Suche').first();
   await searchInput.fill('Vereinshaus');
-  await expect(page.getByRole('button', { name: 'Vereinshaus' })).toBeVisible();
+  await expect(
+    page.getByTestId('search-results').getByRole('link', { name: /Vereinshaus/i })
+  ).toBeVisible();
 });
