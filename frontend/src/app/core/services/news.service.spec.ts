@@ -28,39 +28,26 @@ describe('NewsService', () => {
     req.flush([]);
   });
 
-  it('filters and sorts published items', (done) => {
-    const payload: NewsPost[] = [
-      {
-        id: 1,
-        title: 'Alt',
-        content: 'Alt',
-        createdAt: '2024-01-01T10:00:00Z',
-        published: true
-      },
-      {
-        id: 2,
-        title: 'Draft',
-        content: 'Draft',
-        createdAt: '2024-02-01T10:00:00Z',
-        published: false
-      },
-      {
-        id: 3,
-        title: 'Neu',
-        content: 'Neu',
-        createdAt: '2024-03-01T10:00:00Z',
-        published: true
-      }
-    ];
+  it('filters and sorts published items', async () => {
+  const payload: NewsPost[] = [
+    { id: 1, title: 'Alt', content: 'Alt', createdAt: '2024-01-01T10:00:00Z', published: true },
+    { id: 2, title: 'Draft', content: 'Draft', createdAt: '2024-02-01T10:00:00Z', published: false },
+    { id: 3, title: 'Neu', content: 'Neu', createdAt: '2024-03-01T10:00:00Z', published: true }
+  ];
 
-    service.getPublishedSorted().subscribe((items) => {
-      expect(items.length).toBe(2);
-      expect(items[0].id).toBe(3);
-      expect(items[1].id).toBe(1);
-      done();
-    });
-
-    const req = httpMock.expectOne('/api/news');
-    req.flush(payload);
+  // Promise, das beim ersten Emit resolved
+  const resultPromise = new Promise<NewsPost[]>((resolve) => {
+    service.getPublishedSorted().subscribe((items) => resolve(items));
   });
+
+  const req = httpMock.expectOne('/api/news');
+  req.flush(payload);
+
+  const items = await resultPromise;
+
+  expect(items.length).toBe(2);
+  expect(items[0].id).toBe(3);
+  expect(items[1].id).toBe(1);
+});
+
 });
