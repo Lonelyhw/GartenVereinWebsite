@@ -89,7 +89,7 @@ jobs:
         run: npm run e2e
 
   docker-build:
-    name: Docker build (optional)
+    name: Docker build
     runs-on: ubuntu-latest
     needs: [backend, frontend, e2e]
     steps:
