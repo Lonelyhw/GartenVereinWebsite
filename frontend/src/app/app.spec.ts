@@ -1,10 +1,24 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { of } from 'rxjs';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App]
+      imports: [App],
+      providers: [
+        provideRouter([]),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: { paramMap: convertToParamMap({}) },
+            queryParamMap: of(convertToParamMap({})),
+            paramMap: of(convertToParamMap({}))
+          }
+        }
+      ]
     }).compileComponents();
   });
 
