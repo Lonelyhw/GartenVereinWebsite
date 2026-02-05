@@ -39,10 +39,11 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(ResponseStatusException.class)
   public ResponseEntity<ErrorResponse> handleResponseStatus(ResponseStatusException ex) {
-    if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
+    HttpStatus status = HttpStatus.valueOf(ex.getStatusCode().value());
+    if (status == HttpStatus.NOT_FOUND) {
       return json(HttpStatus.NOT_FOUND, new ErrorResponse("Nicht gefunden.", List.of()));
     }
-    return json(ex.getStatusCode(), new ErrorResponse(ex.getReason(), List.of()));
+    return json(status, new ErrorResponse(ex.getReason(), List.of()));
   }
 
   @ExceptionHandler(Exception.class)
