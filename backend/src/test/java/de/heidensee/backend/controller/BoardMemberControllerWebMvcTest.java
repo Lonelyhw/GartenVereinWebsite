@@ -84,6 +84,9 @@ class BoardMemberControllerWebMvcTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(payload)))
         .andExpect(status().isBadRequest())
-        .andExpect(content().string(not(isEmptyString())));
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.message").exists())
+        .andExpect(jsonPath("$.errors[0].field").value("name"))
+        .andExpect(jsonPath("$.errors[0].message").exists());
   }
 }
