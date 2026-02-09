@@ -70,15 +70,15 @@ jobs:
         run: |
           for i in {1..30}; do
             if curl -fsS http://localhost/api/actuator/health | python - <<'PY'
-import json
-import sys
+              import json
+              import sys
 
-try:
-    data = json.load(sys.stdin)
-except Exception:
-    sys.exit(1)
+              try:
+                  data = json.load(sys.stdin)
+              except Exception:
+                  sys.exit(1)
 
-sys.exit(0 if data.get("status") == "UP" else 1)
+              sys.exit(0 if data.get("status") == "UP" else 1)
 PY
             then
               echo "Backend healthy"
