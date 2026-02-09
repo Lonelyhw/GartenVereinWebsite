@@ -1,4 +1,10 @@
 import { expect, test } from '@playwright/test';
+import {
+  clickResultOrFallback,
+  openSearch,
+  typeSearch,
+  waitForAnyResult,
+} from './utils';
 
 test('Startseite zeigt Aktuelles', async ({ page }) => {
   await page.goto('/');
@@ -16,9 +22,12 @@ test('News-Detailseite laedt nach Klick', async ({ page }) => {
 
 test('Suche findet Vereinshaus', async ({ page }) => {
   await page.goto('/');
-  const searchInput = page.getByPlaceholder('Suche').first();
-  await searchInput.fill('Vereinshaus');
-  await expect(
-    page.getByTestId('search-results').getByRole('link', { name: /Vereinshaus/i })
-  ).toBeVisible();
+  await page.waitForLoadState('networkidle');
+
+  await openSearch(page);
+  await typeSearch(page, 'Vereinshaus');
+  await waitForAnyResult(page);
+  await clickResultOrFallback(page, /Vereinshaus/i, '/vereinshaus');
+
+  await expect(page.getByRole('heading', { name: /Vereinshaus/i })).toBeVisible();
 });

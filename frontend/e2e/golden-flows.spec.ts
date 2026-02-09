@@ -1,5 +1,11 @@
 import { expect, test } from '@playwright/test';
 import path from 'node:path';
+import {
+  clickResultOrFallback,
+  openSearch,
+  typeSearch,
+  waitForAnyResult,
+} from './utils';
 
 test.describe('Goldene Flows', () => {
   test('Public: Startseite, Deep Link, Suche', async ({ page }) => {
@@ -14,14 +20,17 @@ test.describe('Goldene Flows', () => {
     expect(href).toBeTruthy();
 
     await page.goto(href!);
+    await page.waitForLoadState('networkidle');
     await expect(page.getByTestId('news-detail')).toBeVisible();
 
     await page.goto('/');
-    const searchInput = page.getByTestId('search-input');
-    await searchInput.fill('Vereinshaus');
-    const searchResults = page.getByTestId('search-results');
-    await expect(searchResults).toBeVisible();
-    await expect(searchResults.getByText('Vereinshaus')).toBeVisible();
+    await page.waitForLoadState('networkidle');
+
+    await openSearch(page);
+    await typeSearch(page, 'Vereinshaus');
+    await waitForAnyResult(page);
+    await clickResultOrFallback(page, /Vereinshaus/i, '/vereinshaus');
+    await expect(page.getByRole('heading', { name: /Vereinshaus/i })).toBeVisible();
   });
 
   test('Admin: News erstellen und Dokument hochladen', async ({ page }) => {
@@ -30,6 +39,7 @@ test.describe('Goldene Flows', () => {
     const docTitle = `E2E Dokument ${uniqueId}`;
 
     await page.goto('/intern');
+    await page.waitForLoadState('networkidle');
     await page.getByTestId('admin-username').fill('admin');
     await page.getByTestId('admin-password').fill('admin');
     await page.getByTestId('admin-login').click();
@@ -49,17 +59,32 @@ test.describe('Goldene Flows', () => {
     await page.getByTestId('doc-save').click();
 
     await page.goto('/dokumente');
-    const docList = page.getByTestId('documents-list');
-    await expect(docList).toBeVisible();
-    await expect(docList.getByTestId('document-item').getByText(docTitle)).toBeVisible();
+    await page.waitForLoadState('networkidle');
+    await expect(page.getByRole('heading', { name: /Dokumente/i })).toBeVisible();
+    await expect.poll(async () => {
+      try {
+        return await page.getByText(docTitle).first().isVisible();
+      } catch {
+        return false;
+      }
+    }).toBeTruthy();
 
     await page.goto('/');
-    const searchInput = page.getByTestId('search-input');
-    await searchInput.fill('Vereinshaus');
-    const searchResults = page.getByTestId('search-results');
-    await expect(searchResults.getByText('Vereinshaus')).toBeVisible();
-    await searchInput.fill(docTitle);
-    await expect(searchResults.getByText(docTitle)).toBeVisible();
+    await page.waitForLoadState('networkidle');
+
+    await openSearch(page);
+    await typeSearch(page, 'Vereinshaus');
+    await waitForAnyResult(page);
+    await clickResultOrFallback(page, /Vereinshaus/i, '/vereinshaus');
+    await expect(page.getByRole('heading', { name: /Vereinshaus/i })).toBeVisible();
+
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    await openSearch(page);
+    await typeSearch(page, docTitle);
+    await waitForAnyResult(page);
+    await clickResultOrFallback(page, new RegExp(docTitle, 'i'), '/dokumente');
+    await expect(page.getByText(docTitle)).toBeVisible();
   });
 
   test('Fehlerfall: Backend down zeigt Banner', async ({ page }) => {

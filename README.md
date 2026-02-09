@@ -19,7 +19,7 @@ Website und Verwaltung fuer einen Kleingartenverein (Frontend + Backend + Datenb
 docker compose up --build
 ```
 
-Aufrufe:
+Aufrufe (vorläufig):
 - Frontend: http://localhost
 - API: http://localhost/api/...
 - Health: http://localhost/api/actuator/health
