@@ -58,16 +58,21 @@ test.describe('Goldene Flows', () => {
     await page.getByTestId('doc-file').setInputFiles(filePath);
     await page.getByTestId('doc-save').click();
 
-    await page.goto('/dokumente');
-    await page.waitForLoadState('networkidle');
-    await expect(page.getByRole('heading', { name: /Dokumente/i })).toBeVisible();
     await expect.poll(async () => {
       try {
-        return await page.getByText(docTitle).first().isVisible();
+        const response = await page.request.get('/api/documents');
+        if (!response.ok()) return false;
+        const data = await response.json();
+        return JSON.stringify(data).toLowerCase().includes(docTitle.toLowerCase());
       } catch {
         return false;
       }
-    }).toBeTruthy();
+    }, { timeout: 30_000 }).toBeTruthy();
+
+    await page.goto('/dokumente');
+    await page.waitForLoadState('networkidle');
+    await expect(page.getByRole('heading', { name: /Dokumente/i })).toBeVisible();
+    await expect(page.getByText(docTitle).first()).toBeVisible();
 
     await page.goto('/');
     await page.waitForLoadState('networkidle');
