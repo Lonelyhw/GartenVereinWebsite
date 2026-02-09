@@ -68,19 +68,8 @@ jobs:
         run: docker compose up -d --build
       - name: Wait for health
         run: |
-          for i in {1..30}; do
-            if curl -fsS http://localhost/api/actuator/health | python - <<'PY'
-              import json
-              import sys
-
-              try:
-                  data = json.load(sys.stdin)
-              except Exception:
-                  sys.exit(1)
-
-              sys.exit(0 if data.get("status") == "UP" else 1)
-PY
-            then
+          for i in {1..60}; do
+            if curl -fsS http://localhost/api/actuator/health | grep -q '"status":"UP"'; then
               echo "Backend healthy"
               exit 0
             fi
