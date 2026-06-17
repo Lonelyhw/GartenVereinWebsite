@@ -1,0 +1,78 @@
+name: Deploy
+
+# Deployt automatisch auf den Server, sobald die CI auf main erfolgreich war.
+# Manueller Start ueber "Run workflow" (workflow_dispatch) ebenfalls moeglich.
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch: {}
+
+# Niemals zwei Deploys gleichzeitig laufen lassen.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy on server via SSH
+    runs-on: ubuntu-latest
+    # Nur deployen, wenn CI erfolgreich war – oder bei manuellem Start.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Deploy-Konfiguration pruefen
+        id: cfg
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          if [ -z "$DEPLOY_HOST" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::DEPLOY_* Secrets sind nicht gesetzt – Deploy wird uebersprungen. Siehe README/Workflow-Kommentar."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy via SSH
+        if: steps.cfg.outputs.configured == 'true'
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || 22 }}
+          script_stop: true
+          command_timeout: 20m
+          script: |
+            set -euo pipefail
+            cd "${{ secrets.DEPLOY_PATH }}"
+
+            echo "== Code aktualisieren =="
+            git fetch --prune origin
+            git checkout main
+            # Server-Arbeitskopie exakt auf origin/main bringen.
+            # Verhindert den "local changes would be overwritten by merge"-Fehler.
+            # Hinweis: verwirft lokale Aenderungen an VERSIONIERTEN Dateien.
+            # Untracked/gitignored Dateien (z. B. .env) und Docker-Volumes bleiben unangetastet.
+            git reset --hard origin/main
+
+            echo "== Bauen & Neustarten =="
+            docker compose up -d --build --remove-orphans
+
+            echo "== Alte Images aufraeumen =="
+            docker image prune -f
+
+            echo "== Health-Check =="
+            for i in $(seq 1 30); do
+              if curl -fsS http://localhost/api/actuator/health | grep -q '"status":"UP"'; then
+                echo "Backend ist gesund."
+                exit 0
+              fi
+              echo "Warte auf Backend... ($i/30)"
+              sleep 2
+            done
+            echo "Health-Check fehlgeschlagen – letzte Logs:"
+            docker compose logs --tail=100
+            exit 1

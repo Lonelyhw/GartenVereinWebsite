@@ -70,6 +70,25 @@ cd frontend
 npm test
 ```
 
+## Deployment (Produktion)
+Automatischer Deploy via GitHub Actions (`.github/workflows/deploy.yml`):
+Sobald die CI auf `main` erfolgreich ist, verbindet sich der Workflow per SSH mit dem
+Server, holt den neuesten Stand (`git reset --hard origin/main`), baut die Container neu
+(`docker compose up -d --build`) und prueft die Health.
+
+Voraussetzung: Auf dem Server ist dieses Repo geklont und laeuft per Docker Compose.
+Der Deploy-User muss Docker ausfuehren duerfen (Mitglied der `docker`-Gruppe).
+
+Benoetigte GitHub-Secrets (Settings → Secrets and variables → Actions):
+- `DEPLOY_HOST` – Server-Hostname oder IP
+- `DEPLOY_USER` – SSH-Benutzer
+- `DEPLOY_SSH_KEY` – privater SSH-Key (PEM), dessen Public Key in `~/.ssh/authorized_keys` des Servers liegt
+- `DEPLOY_PATH` – absoluter Pfad zum Repo auf dem Server
+- `DEPLOY_PORT` – optional, SSH-Port (Standard `22`)
+
+Solange die Secrets fehlen, ueberspringt sich der Workflow ohne Fehler.
+Manuell ausloesen: Actions → „Deploy" → „Run workflow".
+
 ## API Endpoints (Auszug)
 Public GET:
 - `/api/news`, `/api/notices`, `/api/documents`, `/api/board`, `/api/rental`, `/api/gardens`, `/api/events`
