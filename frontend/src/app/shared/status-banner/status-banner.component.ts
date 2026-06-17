@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
+import { IconComponent } from '../icon/icon.component';
 import { StatusMessage, StatusType } from './status-banner.types';
 
 @Component({
   selector: 'app-status-banner',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, IconComponent],
   templateUrl: './status-banner.component.html'
 })
 export class StatusBannerComponent {
