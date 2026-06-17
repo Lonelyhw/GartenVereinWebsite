@@ -1,13 +1,19 @@
-<header class='sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur'>
+<header class='sticky top-0 z-50 border-b border-slate-200 bg-white/80 shadow-sm backdrop-blur-md'>
   <app-container className='flex h-16 items-center justify-between'>
-    <a class='text-base font-semibold tracking-tight text-slate-900 md:text-lg' routerLink='/'>
+    <a
+      class='group inline-flex items-center gap-2 text-base font-semibold tracking-tight text-slate-900 transition-colors hover:text-emerald-700 md:text-lg'
+      routerLink='/'
+    >
+      <span class='text-emerald-600 transition-transform duration-300 group-hover:rotate-[12deg]'>
+        <app-icon name='leaf' [size]='20' />
+      </span>
       Kleingartenverein am Heidensee e.V.
     </a>
 
     <nav class='hidden items-center gap-5 text-sm font-medium text-slate-700 lg:flex'>
       <div class='relative'>
         <button
-          class='inline-flex items-center gap-1.5 py-2 text-slate-700 hover:text-slate-900'
+          class='inline-flex items-center gap-1.5 py-2 text-slate-700 transition-colors hover:text-emerald-700'
           type='button'
           aria-haspopup='menu'
           [attr.aria-expanded]='desktopOpen() === groups[0].label'
@@ -15,21 +21,31 @@
           (keydown)='handleDropdownKey(groups[0].label, $event)'
         >
           Der Verein
-          <span class='text-xs text-slate-400'>v</span>
+          <span
+            class='inline-flex text-slate-400 transition-transform duration-200'
+            [class.rotate-180]='desktopOpen() === groups[0].label'
+          >
+            <app-icon name='chevron-down' [size]='16' />
+          </span>
         </button>
         <div
           role='menu'
-          class='absolute left-0 top-full mt-2 w-60 rounded-lg border border-slate-200 bg-white p-2 shadow-lg transition'
+          class='absolute left-0 top-full mt-2 w-60 origin-top rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-900/5 transition duration-200 ease-out'
+          [class.pointer-events-none]='desktopOpen() !== groups[0].label'
           [class.opacity-0]='desktopOpen() !== groups[0].label'
           [class.invisible]='desktopOpen() !== groups[0].label'
+          [class.-translate-y-1]='desktopOpen() !== groups[0].label'
+          [class.scale-95]='desktopOpen() !== groups[0].label'
           [class.opacity-100]='desktopOpen() === groups[0].label'
           [class.visible]='desktopOpen() === groups[0].label'
+          [class.translate-y-0]='desktopOpen() === groups[0].label'
+          [class.scale-100]='desktopOpen() === groups[0].label'
         >
           <a
             *ngFor='let link of groups[0].links'
-            class='block rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+            class='block rounded-md px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700'
             [routerLink]='link.path'
-            routerLinkActive='bg-slate-100 text-slate-900'
+            routerLinkActive='bg-emerald-50 text-emerald-700'
             (click)='closeDesktop()'
           >
             {{ link.label }}
@@ -39,7 +55,7 @@
 
       <div class='relative'>
         <button
-          class='inline-flex items-center gap-1.5 py-2 text-slate-700 hover:text-slate-900'
+          class='inline-flex items-center gap-1.5 py-2 text-slate-700 transition-colors hover:text-emerald-700'
           type='button'
           aria-haspopup='menu'
           [attr.aria-expanded]='desktopOpen() === groups[1].label'
@@ -47,21 +63,31 @@
           (keydown)='handleDropdownKey(groups[1].label, $event)'
         >
           Aktuelles
-          <span class='text-xs text-slate-400'>v</span>
+          <span
+            class='inline-flex text-slate-400 transition-transform duration-200'
+            [class.rotate-180]='desktopOpen() === groups[1].label'
+          >
+            <app-icon name='chevron-down' [size]='16' />
+          </span>
         </button>
         <div
           role='menu'
-          class='absolute left-0 top-full mt-2 w-60 rounded-lg border border-slate-200 bg-white p-2 shadow-lg transition'
+          class='absolute left-0 top-full mt-2 w-60 origin-top rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-900/5 transition duration-200 ease-out'
+          [class.pointer-events-none]='desktopOpen() !== groups[1].label'
           [class.opacity-0]='desktopOpen() !== groups[1].label'
           [class.invisible]='desktopOpen() !== groups[1].label'
+          [class.-translate-y-1]='desktopOpen() !== groups[1].label'
+          [class.scale-95]='desktopOpen() !== groups[1].label'
           [class.opacity-100]='desktopOpen() === groups[1].label'
           [class.visible]='desktopOpen() === groups[1].label'
+          [class.translate-y-0]='desktopOpen() === groups[1].label'
+          [class.scale-100]='desktopOpen() === groups[1].label'
         >
           <a
             *ngFor='let link of groups[1].links'
-            class='block rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+            class='block rounded-md px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700'
             [routerLink]='link.path'
-            routerLinkActive='bg-slate-100 text-slate-900'
+            routerLinkActive='bg-emerald-50 text-emerald-700'
             (click)='closeDesktop()'
           >
             {{ link.label }}
@@ -71,16 +97,16 @@
 
       <a
         *ngFor='let link of directLinks'
-        class='rounded-full px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+        class='rounded-full px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700'
         [routerLink]='link.path'
-        routerLinkActive='bg-slate-100 text-slate-900'
+        routerLinkActive='bg-emerald-50 text-emerald-700'
       >
         {{ link.label }}
       </a>
 
       <div class='relative hidden items-center lg:flex' (click)='$event.stopPropagation()'>
         <input
-          class='h-9 w-48 rounded-full border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-emerald-300 focus:outline-none'
+          class='h-9 w-48 rounded-full border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-700 placeholder:text-slate-400 transition focus:w-56 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 focus:outline-none'
           type='search'
           placeholder='Suche'
           data-testid='search-input'
@@ -89,11 +115,13 @@
           (focus)='onSearchInput($any($event.target).value)'
           (keydown)='handleSearchKey($event)'
         />
-        <span class='absolute left-3 text-xs text-slate-400'>o</span>
+        <span class='pointer-events-none absolute left-3 text-slate-400'>
+          <app-icon name='search' [size]='16' />
+        </span>
         <div
           *ngIf='searchOpen()'
           data-testid='search-results'
-          class='absolute right-0 top-12 z-50 w-80 rounded-2xl border border-slate-200 bg-white p-2 shadow-lg'
+          class='animate-pop-in absolute right-0 top-12 z-50 w-80 rounded-2xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-900/10'
         >
           <div *ngIf='searchLoading' class='px-3 py-2 text-sm text-slate-500'>Suche laedt...</div>
           <ng-container *ngIf='!searchLoading'>
@@ -123,29 +151,32 @@
     </nav>
 
     <button
-      class='inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 text-slate-700 hover:bg-slate-100 lg:hidden'
+      class='inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-700 transition-colors hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 lg:hidden'
       type='button'
       (click)='toggleMobile()'
       (click)='closeDesktop()'
       aria-label='Menue oeffnen'
     >
-      <span class='text-lg'>=</span>
+      <app-icon name='menu' [size]='22' />
     </button>
   </app-container>
 </header>
 
 <div *ngIf='mobileOpen()' class='lg:hidden'>
-  <div class='fixed inset-0 z-40 bg-slate-900/30' (click)='closeMobile()'></div>
-  <aside class='fixed right-0 top-0 z-50 h-full w-80 bg-white shadow-xl'>
+  <div class='animate-fade-in fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm' (click)='closeMobile()'></div>
+  <aside class='animate-slide-in-right fixed right-0 top-0 z-50 h-full w-80 bg-white shadow-2xl'>
     <div class='flex items-center justify-between border-b border-slate-200 px-4 py-4'>
-      <span class='text-base font-semibold text-slate-900'>Menue</span>
+      <span class='inline-flex items-center gap-2 text-base font-semibold text-slate-900'>
+        <span class='text-emerald-600'><app-icon name='leaf' [size]='18' /></span>
+        Menue
+      </span>
       <button
-        class='inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-700 hover:bg-slate-100'
+        class='inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-700 transition-colors hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700'
         type='button'
         (click)='closeMobile()'
         aria-label='Menue schliessen'
       >
-        x
+        <app-icon name='close' [size]='18' />
       </button>
     </div>
     <div class='space-y-5 px-4 py-6'>
@@ -161,11 +192,13 @@
             (focus)='onSearchInput($any($event.target).value)'
             (keydown)='handleSearchKey($event)'
           />
-          <span class='absolute left-3 top-3 text-xs text-slate-400'>o</span>
+          <span class='pointer-events-none absolute left-3 top-2.5 text-slate-400'>
+            <app-icon name='search' [size]='16' />
+          </span>
           <div
             *ngIf='searchOpen()'
             data-testid='search-results'
-            class='absolute left-0 top-12 z-50 w-full rounded-2xl border border-slate-200 bg-white p-2 shadow-lg'
+            class='animate-pop-in absolute left-0 top-12 z-50 w-full rounded-2xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-900/10'
           >
             <div *ngIf='searchLoading' class='px-3 py-2 text-sm text-slate-500'>Suche laedt...</div>
           <ng-container *ngIf='!searchLoading'>
@@ -194,21 +227,26 @@
         </div>
       </div>
 
-      <div *ngFor='let group of groups' class='rounded-xl border border-slate-200 bg-white'>
+      <div *ngFor='let group of groups' class='overflow-hidden rounded-xl border border-slate-200 bg-white'>
         <button
-          class='flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-slate-800'
+          class='flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50'
           type='button'
           (click)='toggleGroup(group.label)'
         >
           {{ group.label }}
-          <span class='text-xs text-slate-400'>{{ mobileGroupOpen() === group.label ? '^' : 'v' }}</span>
+          <span
+            class='inline-flex text-slate-400 transition-transform duration-200'
+            [class.rotate-180]='mobileGroupOpen() === group.label'
+          >
+            <app-icon name='chevron-down' [size]='16' />
+          </span>
         </button>
-        <div *ngIf='mobileGroupOpen() === group.label' class='space-y-1 px-4 pb-4'>
+        <div *ngIf='mobileGroupOpen() === group.label' class='animate-fade-in space-y-1 px-4 pb-4'>
           <a
             *ngFor='let link of group.links'
-            class='block rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+            class='block rounded-md px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700'
             [routerLink]='link.path'
-            routerLinkActive='bg-slate-100 text-slate-900'
+            routerLinkActive='bg-emerald-50 text-emerald-700'
             (click)='closeMobile()'
           >
             {{ link.label }}
@@ -220,9 +258,9 @@
         <p class='text-xs font-semibold uppercase tracking-wide text-slate-400'>Direktlinks</p>
         <a
           *ngFor='let link of directLinks'
-          class='block rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+          class='block rounded-md px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700'
           [routerLink]='link.path'
-          routerLinkActive='bg-slate-100 text-slate-900'
+          routerLinkActive='bg-emerald-50 text-emerald-700'
           (click)='closeMobile()'
         >
           {{ link.label }}
@@ -246,12 +284,21 @@
 <footer class='border-t border-slate-200 bg-white'>
   <app-container className='flex flex-col gap-3 py-6 text-sm text-slate-600 md:flex-row md:items-center md:justify-between'>
     <div>
-      <p class='font-semibold text-slate-800'>Kleingartenverein am Heidensee e.V.</p>
-      <p class='text-xs text-slate-500'>info@kgv-heidensee.de</p>
+      <p class='inline-flex items-center gap-2 font-semibold text-slate-800'>
+        <span class='text-emerald-600'><app-icon name='leaf' [size]='16' /></span>
+        Kleingartenverein am Heidensee e.V.
+      </p>
+      <a
+        class='mt-1 inline-flex items-center gap-1.5 text-xs text-slate-500 transition-colors hover:text-emerald-700'
+        href='mailto:info@kgv-heidensee.de'
+      >
+        <app-icon name='mail' [size]='14' />
+        info@kgv-heidensee.de
+      </a>
     </div>
     <div class='flex flex-col gap-2 md:flex-row md:gap-6'>
-      <span>Impressum (Platzhalter)</span>
-      <span>Kontakt (Platzhalter)</span>
+      <span class='transition-colors hover:text-slate-900'>Impressum (Platzhalter)</span>
+      <span class='transition-colors hover:text-slate-900'>Kontakt (Platzhalter)</span>
     </div>
   </app-container>
 </footer>

@@ -4,13 +4,14 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Observable, combineLatest, map, of } from 'rxjs';
 import { catchError, shareReplay } from 'rxjs/operators';
 import { ImageCardComponent } from '../../shared/image-card/image-card.component';
+import { IconComponent } from '../../shared/icon/icon.component';
 import { NewsService } from '../../core/services/news.service';
 import { NewsPost } from '../../core/models/news-post.model';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [AsyncPipe, DatePipe, NgFor, NgIf, RouterLink, ImageCardComponent],
+  imports: [AsyncPipe, DatePipe, NgFor, NgIf, RouterLink, ImageCardComponent, IconComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

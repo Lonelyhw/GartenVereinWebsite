@@ -1,4 +1,4 @@
-<section class='space-y-10'>
+<section class='animate-fade-in-up space-y-10'>
   <div class='rounded-2xl border border-slate-200 bg-white px-6 py-8 shadow-sm'>
     <h1 class='text-3xl font-semibold tracking-tight text-slate-900'>Aushaenge</h1>
     <p class='mt-2 text-base text-slate-600'>Aktuelle Hinweise und Bekanntmachungen.</p>
@@ -12,10 +12,10 @@
         Noch keine Aushange vorhanden.
       </div>
 
-      <div *ngIf='notices.length > 0' class='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-        <article *ngFor='let notice of notices' class='overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm'>
+      <div *ngIf='notices.length > 0' class='stagger grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
+        <article *ngFor='let notice of notices' class='group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-emerald-200 hover:shadow-md'>
           <div class='h-48 overflow-hidden bg-slate-100'>
-            <img *ngIf='notice.imageUrl' class='h-full w-full object-cover' [src]='notice.imageUrl' [alt]='notice.title' />
+            <img *ngIf='notice.imageUrl' class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105' [src]='notice.imageUrl' [alt]='notice.title' />
           </div>
           <div class='p-4'>
             <h3 class='text-base font-semibold text-slate-900'>{{ notice.title }}</h3>

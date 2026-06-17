@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { DocumentService, DocumentItem } from '../../core/services/document.service';
+import { IconComponent } from '../../shared/icon/icon.component';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dokumente',
   standalone: true,
-  imports: [AsyncPipe, NgFor, NgIf],
+  imports: [AsyncPipe, NgFor, NgIf, IconComponent],
   templateUrl: './dokumente.component.html',
   styleUrl: './dokumente.component.scss'
 })

@@ -5,6 +5,7 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { SearchItem } from '../../core/models/search-item.model';
 import { SearchService } from '../../core/services/search.service';
 import { ContainerComponent } from '../../shared/container/container.component';
+import { IconComponent } from '../../shared/icon/icon.component';
 import { StatusService } from '../../core/services/status.service';
 import { StatusBannerComponent } from '../../shared/status-banner/status-banner.component';
 import { HealthService } from '../../core/services/health.service';
@@ -32,6 +33,7 @@ interface NavGroup {
     RouterLinkActive,
     RouterOutlet,
     ContainerComponent,
+    IconComponent,
     StatusBannerComponent
   ],
   templateUrl: './app-layout.component.html',
